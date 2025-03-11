@@ -24,7 +24,7 @@ module.exports = {
 	},
 	output: {
 		filename: '[name].bundle.js',
-		path: path.resolve(__dirname, 'public/js'),
+		path: path.resolve(__dirname, 'public'),
 	},
 	cache: {
 		type: 'filesystem',
@@ -32,7 +32,6 @@ module.exports = {
 	optimization: {
 		runtimeChunk: 'single',
 	},
-	watch: true,
 	devServer: {
 		static: {
 			directory: path.join(__dirname, 'public')

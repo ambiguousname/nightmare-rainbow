@@ -16,24 +16,24 @@ class Game extends Phaser.Scene {
 	}
 
 	create() {
-		// this.#cursors = this.input.keyboard.createCursorKeys();
+		this.#cursors = this.input.keyboard.createCursorKeys();
 	}
 
 	updateOther(data : any) {
-		// this.#otherPlayer.x = data[0];
-		// this.#otherPlayer.y = data[1];
+		this.#otherPlayer.x = data[0];
+		this.#otherPlayer.y = data[1];
 	}
 
 	// conn = null;
 
 	update(){
-		// if (this.cursors.left.isDown) {
-		// 	this.player.x -= 10;
-		// }
+		if (this.#cursors.left.isDown) {
+			this.#player.x -= 10;
+		}
 
-		// if (this.cursors.right.isDown) {
-		// 	this.player.x += 10;
-		// }
+		if (this.#cursors.right.isDown) {
+			this.#player.x += 10;
+		}
 
 		// if (this.conn !== null) {
 		// 	this.conn.send([this.player.x, this.player.y]);

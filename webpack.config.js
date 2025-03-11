@@ -10,6 +10,7 @@ module.exports = {
 		phaser: 'phaser',
 		peer: 'peerjs'
 	},
+	devtool: 'inline-source-map',
 	module: {
 		rules: [
 			{

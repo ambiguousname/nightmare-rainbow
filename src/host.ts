@@ -6,7 +6,7 @@ export class Host extends Connection {
 	constructor() {
 		super();
 		this.peer.on("connection", this.connected.bind(this));
-		this.peer.on("disconnected", this._disconnected.bind(this));
+		this.peer.on("disconnected", this.disconnected.bind(this));
 	}
 	
 	protected players : Map<string, DataConnection> = new Map();
@@ -14,17 +14,17 @@ export class Host extends Connection {
 	protected connected(connection : DataConnection) {
 		this.players.set(connection.connectionId, connection);
 		connection.on("open", (() => {
-			connection.on("data", this._receiveData.bind(this));
+			connection.on("data", this.receiveData.bind(this));
 		}).bind(this));
 	}
 
-	_disconnected(id : string) {
+	protected disconnected(id : string) {
 		this.players.delete(id);
 	}
 
 	// TODO: Fix.
 	#otherPlayer : Array<number> = null;
-	_receiveData(data : any) {
+	protected receiveData(data : any) {
 		this.#otherPlayer = data;
 	}
 

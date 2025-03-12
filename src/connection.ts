@@ -1,7 +1,7 @@
 import { DataConnection, Peer } from "peerjs";
 import { GameScene } from "./scenes/main";
 
-export class Connection {
+export abstract class Connection {
 	protected peer : Peer;
 
 	#opened : boolean = false;
@@ -24,10 +24,6 @@ export class Connection {
 		});
 	}
 
-	opened() {
-
-	}
-
 	// TODO: Need something wayyyy more robust:
-	update(state : GameScene) {}
+	abstract update(state : GameScene) : void;
 }

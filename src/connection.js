@@ -1,9 +1,10 @@
 import { DataConnection, Peer } from "peerjs";
+import { GameScene } from "./scenes/main";
 
-export abstract class Connection {
-	_peer : Peer;
+export class Connection {
+	_peer;
 
-	#connected : Promise<string>;
+	#connected;
 
 	constructor() {
 		this._peer = new Peer();
@@ -16,7 +17,10 @@ export abstract class Connection {
 		});
 	}
 
-	get id() : Promise<string> {
+	// TODO: Need something wayyyy more robust:
+	update(state) {}
+
+	get id() {
 		return this.#connected;
 	}
 }

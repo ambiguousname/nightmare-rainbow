@@ -13,13 +13,13 @@ const menuButton = {
 const BASE_URL = "localhost:8080";
 
 export class MainMenu extends Phaser.Scene {
-	#hostButton : Phaser.GameObjects.Text;
+	#hostButton;
 	
-	#startButton : Phaser.GameObjects.Text;
+	#startButton;
 
-	#joinText : Phaser.GameObjects.Text;
+	#joinText;
 
-	#connection : Connection = null;
+	#connection = null;
 
 	preload() {
 		this.#hostButton = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Host A Game!", menuButton).setPadding(32).setOrigin(0.5).setInteractive({ useHandCursor: true });
@@ -61,7 +61,7 @@ export class MainMenu extends Phaser.Scene {
 		}, this);
 	}
 
-	#joinID : string = null;
+	#joinID = null;
 
 	create() {
 		let params = new URLSearchParams(location.search);

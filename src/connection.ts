@@ -1,6 +1,9 @@
 import { DataConnection, Peer } from "peerjs";
 import { GameScene } from "./scenes/main";
 
+declare var PEERJS_PORT : number;
+declare var PEERJS_SERVER : string;
+
 export abstract class Connection {
 	protected peer : Peer;
 
@@ -13,7 +16,10 @@ export abstract class Connection {
 	}
 
 	constructor() {
-		this.peer = new Peer();
+		this.peer = new Peer({
+			port: PEERJS_PORT,
+			host: PEERJS_SERVER
+		});
 		this.onOpen = new Promise((resolve, reject) => {
 			this.peer.on("open", resolve);
 			this.#opened = true;

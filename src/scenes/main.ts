@@ -1,8 +1,17 @@
-class Game extends Phaser.Scene {
+import { Client } from "../client";
+import { Connection } from "../connection";
+
+export class GameScene extends Phaser.Scene {
 	#player : Phaser.GameObjects.Graphics;
 	#otherPlayer : Phaser.GameObjects.Graphics;
 
 	#cursors :	Phaser.Types.Input.Keyboard.CursorKeys;
+
+	#connection : Connection;
+
+	init(data : Connection) {
+		this.#connection = data;
+	}
 
 	preload() {
 		const graphics = this.add.graphics();
@@ -17,6 +26,10 @@ class Game extends Phaser.Scene {
 
 	create() {
 		this.#cursors = this.input.keyboard.createCursorKeys();
+		
+		if (this.#connection instanceof Client) {
+			this.#connection.send();
+		}
 	}
 
 	updateOther(data : any) {

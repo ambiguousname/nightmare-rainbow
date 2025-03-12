@@ -16,23 +16,33 @@ export class Host extends Connection {
 
 	_connected(connection) {
 		this._players.set(connection.connectionId, connection);
-		connection.on("data", this._receiveData.bind(this));
+		connection.on("open", (() => {
+			connection.on("data", this._receiveData.bind(this));
+		}).bind(this));
 	}
 
-	_disconnected(id ) {
+	_disconnected(id) {
 		this._players.delete(id);
 	}
 
 	// TODO: Fix.
-	#otherPlayer;
+	#otherPlayer = null;
 	_receiveData(data) {
 		this.#otherPlayer = data;
 	}
 
 	update(scene) {
+		if (!this.isOpen) { return; }
+
 		for (let player of this._players.values()) {
 			player.send([scene.player.x, scene.player.y]);
 		}
+
+		
+		if (this.#otherPlayer === null) {
+			return;
+		}
+		
 		scene.otherPlayer.x = this.#otherPlayer[0];
 		scene.otherPlayer.y = this.#otherPlayer[1];
 	}

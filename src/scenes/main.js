@@ -26,8 +26,6 @@ export class GameScene extends Phaser.Scene {
 
 	create() {
 		this.#cursors = this.input.keyboard.createCursorKeys();
-		
-		this.#connection.update(this);
 	}
 
 	// conn = null;
@@ -41,8 +39,14 @@ export class GameScene extends Phaser.Scene {
 			this.player.x += 10;
 		}
 
-		// if (this.conn !== null) {
-		// 	this.conn.send([this.player.x, this.player.y]);
-		// }
+		if (this.#cursors.down.isDown) {
+			this.player.y += 10;
+		}
+
+		if (this.#cursors.up.isDown) {
+			this.player.y -= 10;
+		}
+
+		this.#connection.update(this);
 	}
 };

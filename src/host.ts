@@ -12,8 +12,8 @@ export class Host extends Connection {
 	protected players : Map<string, DataConnection> = new Map();
 
 	protected connected(connection : DataConnection) {
-		this.players.set(connection.connectionId, connection);
 		connection.on("open", (() => {
+			this.players.set(connection.connectionId, connection);
 			connection.on("data", this.receiveData.bind(this));
 		}).bind(this));
 	}

@@ -2,14 +2,14 @@ import { Client } from "../client";
 import { Connection } from "../connection";
 
 export class GameScene extends Phaser.Scene {
-	player;
-	otherPlayer;
+	player : Phaser.GameObjects.Graphics;
+	otherPlayer : Phaser.GameObjects.Graphics;
 
-	#cursors;
+	#cursors : Phaser.Types.Input.Keyboard.CursorKeys;
 
-	#connection;
+	#connection : Connection;
 
-	init(data) {
+	init(data : Connection) {
 		this.#connection = data;
 	}
 

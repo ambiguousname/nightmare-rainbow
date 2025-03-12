@@ -4,7 +4,7 @@ module.exports = {
 	mode: "development",
 	entry: {
 		index: {
-			import: './src/index.js',
+			import: './src/index.ts',
 			dependOn: ['phaser', 'peer'],
 		},
 		phaser: 'phaser',

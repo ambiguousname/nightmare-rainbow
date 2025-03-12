@@ -3,19 +3,19 @@ import { Connection } from "./connection";
 import { GameScene } from "./scenes/main";
 export class Client extends Connection {
 
-	_host;
+	_host : DataConnection;
 
-	#hostID;
-	constructor(hostID) {
+	#hostID : string = null;
+	constructor(hostID : string) {
 		super();
 		this.#hostID = hostID;
-		this.connected.then(this.opened.bind(this));
+		this.onOpen.then(this.opened.bind(this));
 	}
 
 	#canUpdate = false;
 
 	opened() {
-		this._host = this._peer.connect(this.#hostID);
+		this._host = this.peer.connect(this.#hostID);
 		this._host.on("open", (() => {
 			this.#canUpdate = true;
 			this._host.on("data", this._receiveData.bind(this));
@@ -23,12 +23,12 @@ export class Client extends Connection {
 	}
 
 	// TODO: Fix.
-	#otherPlayer = null;
-	_receiveData(data) {
+	#otherPlayer : Array<number> = null;
+	_receiveData(data : any) {
 		this.#otherPlayer = data;
 	}
 
-	update(scene) {
+	update(scene : GameScene) {
 		if (!this.#canUpdate) { return; }
 		this._host.send([scene.player.x, scene.player.y]);
 

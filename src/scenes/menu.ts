@@ -13,13 +13,13 @@ const menuButton = {
 const BASE_URL = "localhost:8080";
 
 export class MainMenu extends Phaser.Scene {
-	#hostButton;
+	#hostButton : Phaser.GameObjects.Text;
 	
-	#startButton;
+	#startButton : Phaser.GameObjects.Text;
 
-	#joinText;
+	#joinText : Phaser.GameObjects.Text;
 
-	#connection = null;
+	#connection : Connection = null;
 
 	preload() {
 		this.#hostButton = this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, "Host A Game!", menuButton).setPadding(32).setOrigin(0.5).setInteractive({ useHandCursor: true });
@@ -30,7 +30,7 @@ export class MainMenu extends Phaser.Scene {
 
 			this.#connection = new Host();
 			
-			this.#connection.id.then((id) => {
+			this.#connection.onOpen.then((id) => {
 				this.#joinText.setText(`${BASE_URL}/?join=${id}`);
 			});
 
@@ -53,7 +53,7 @@ export class MainMenu extends Phaser.Scene {
 		this.#joinText.setVisible(false);
 
 		this.#joinText.on('pointerdown', () => {
-			this.#connection.id.then((id) => {
+			this.#connection.onOpen.then((id) => {
 				navigator.clipboard.writeText(`${BASE_URL}/?join=${id}`).then((() => {
 					this.#joinText.text = "Copied!";
 				}).bind(this));
@@ -61,7 +61,7 @@ export class MainMenu extends Phaser.Scene {
 		}, this);
 	}
 
-	#joinID = null;
+	#joinID : string = null;
 
 	create() {
 		let params = new URLSearchParams(location.search);

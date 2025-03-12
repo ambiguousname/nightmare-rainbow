@@ -1,7 +1,9 @@
 {
   "dependencies": {
     "peerjs": "^1.5.4",
-    "phaser": "^3.88.2"
+    "phaser": "^3.88.2",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.8.2"
   },
   "devDependencies": {
     "webpack": "^5.98.0",

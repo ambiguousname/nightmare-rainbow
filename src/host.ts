@@ -5,36 +5,33 @@ import { GameScene } from "./scenes/main";
 export class Host extends Connection {
 	constructor() {
 		super();
-		this._peer.on("connection", this._connected.bind(this));
-		this.id.then((id) => {
-			console.log(id);
-		});
-		this._peer.on("disconnected", this._disconnected.bind(this));
+		this.peer.on("connection", this.connected.bind(this));
+		this.peer.on("disconnected", this._disconnected.bind(this));
 	}
 	
-	_players = new Map();
+	protected players : Map<string, DataConnection> = new Map();
 
-	_connected(connection) {
-		this._players.set(connection.connectionId, connection);
+	protected connected(connection : DataConnection) {
+		this.players.set(connection.connectionId, connection);
 		connection.on("open", (() => {
 			connection.on("data", this._receiveData.bind(this));
 		}).bind(this));
 	}
 
-	_disconnected(id) {
-		this._players.delete(id);
+	_disconnected(id : string) {
+		this.players.delete(id);
 	}
 
 	// TODO: Fix.
-	#otherPlayer = null;
-	_receiveData(data) {
+	#otherPlayer : Array<number> = null;
+	_receiveData(data : any) {
 		this.#otherPlayer = data;
 	}
 
-	update(scene) {
+	update(scene : GameScene) {
 		if (!this.isOpen) { return; }
 
-		for (let player of this._players.values()) {
+		for (let player of this.players.values()) {
 			player.send([scene.player.x, scene.player.y]);
 		}
 

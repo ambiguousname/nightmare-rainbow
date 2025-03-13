@@ -1,9 +1,10 @@
 import { Client } from "../client";
 import { Connection } from "../connection";
+import { Player } from "../objects/player";
 
 export class GameScene extends Phaser.Scene {
-	player : Phaser.GameObjects.Graphics;
-	otherPlayer : Phaser.GameObjects.Graphics;
+	player : Player;
+	otherPlayer : Player;
 
 	#cursors : Phaser.Types.Input.Keyboard.CursorKeys;
 
@@ -15,37 +16,43 @@ export class GameScene extends Phaser.Scene {
 
 	preload() {
 		const graphics = this.add.graphics();
-		graphics.fillStyle(0xff0000);
-		this.player = graphics.fillCircle(0, 0, 100);
-
-		const newGraphics = this.add.graphics();
-
-		newGraphics.fillStyle(0x00ff00);
-		this.otherPlayer = newGraphics.fillCircle(0, 0, 100);
+		graphics.fillStyle(0xffffff);
+		graphics.fillCircle(12.5, 12.5, 25);
+		graphics.generateTexture("player", 25, 25);
+		graphics.destroy();
 	}
 
 	create() {
+		this.player = new Player(this.matter.world, 0, 0, "player");
+		this.otherPlayer = new Player(this.matter.world, 0, 0, "player");
+		this.otherPlayer.tint = 0xff0000;
+
 		this.#cursors = this.input.keyboard.createCursorKeys();
+
+		this.matter.world.disableGravity();
 	}
 
-	// conn = null;
-
-	update(){
+	update(time : number, delta : number){
+		let add = new Phaser.Math.Vector2();
 		if (this.#cursors.left.isDown) {
-			this.player.x -= 10;
+			add.x -= 10;
 		}
 
 		if (this.#cursors.right.isDown) {
-			this.player.x += 10;
+			add.x += 10;
 		}
 
 		if (this.#cursors.down.isDown) {
-			this.player.y += 10;
+			add.y += 10;
 		}
 
 		if (this.#cursors.up.isDown) {
-			this.player.y -= 10;
+			add.y -= 10;
 		}
+
+		let vel = this.player.getVelocity();
+
+		this.player.setVelocity(vel.x + add.x * delta/1000, vel.y + add.y * delta/1000);
 
 		this.#connection.update(this);
 	}

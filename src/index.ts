@@ -9,5 +9,11 @@ let game = new Phaser.Game({
 	width: window.innerWidth,
 	height: window.innerHeight,
 	scene: [new MainMenu("main"), new GameScene("game")],
-	parent: 'game'
+	parent: 'game',
+	physics: {
+		default: 'matter',
+		matter: {
+			debug: true
+		}
+	}
 });

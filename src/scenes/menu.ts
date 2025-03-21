@@ -10,7 +10,7 @@ const menuButton = {
 	backgroundColor: '#ff0000'
 };
 
-const BASE_URL = "localhost:8080";
+declare var DOMAIN : string;
 
 export class MainMenu extends Phaser.Scene {
 	#hostButton : Phaser.GameObjects.Text;
@@ -31,7 +31,7 @@ export class MainMenu extends Phaser.Scene {
 			this.#connection = new Host();
 			
 			this.#connection.onOpen.then((id) => {
-				this.#joinText.setText(`${BASE_URL}/?join=${id}`);
+				this.#joinText.setText(`${DOMAIN}/?join=${id}`);
 			});
 
 			this.#hostButton.destroy();
@@ -54,7 +54,7 @@ export class MainMenu extends Phaser.Scene {
 
 		this.#joinText.on('pointerdown', () => {
 			this.#connection.onOpen.then((id) => {
-				navigator.clipboard.writeText(`${BASE_URL}/?join=${id}`).then((() => {
+				navigator.clipboard.writeText(`${DOMAIN}/?join=${id}`).then((() => {
 					this.#joinText.text = "Copied!";
 				}).bind(this));
 			});

@@ -16,12 +16,6 @@ export class InputManager {
 		this.createBindings(scene.input.keyboard, 1, KEYS.right);
 		this.createBindings(scene.input.keyboard, 2, KEYS.up);
 		this.createBindings(scene.input.keyboard, 3, KEYS.down);
-
-		scene.input.gamepad.addListener('connected', (pad : Phaser.Input.Gamepad.Gamepad) => {
-			pad.on('down', () => {
-
-			});
-		});
 	}
 
 	bindingDown(direction : integer, isUp : boolean) {

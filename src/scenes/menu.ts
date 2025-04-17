@@ -72,6 +72,15 @@ export class MainMenu extends Phaser.Scene {
 
 			this.#joinID = join;
 		}
+
+		let host = params.get("host");
+		if (host !== null) {
+			this.#hostButton.emit('pointerdown');
+
+			this.#connection.onOpen.then(() => {
+				this.#startButton.emit('pointerdown');
+			});
+		}
 	}
 
 	update() {

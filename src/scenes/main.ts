@@ -22,8 +22,6 @@ export class GameScene extends Phaser.Scene {
 		graphics.fillRoundedRect(0, 0, 50, 25, 10);
 		graphics.generateTexture("player", 50, 25);
 		graphics.destroy();
-
-		this.#input = new InputManager(this);
 	}
 
 	create() {
@@ -38,7 +36,7 @@ export class GameScene extends Phaser.Scene {
 
 		this.matter.world.disableGravity();
 
-		new Room(this, {x: 0, y: 0}, {x: 500, y: 500});
+		new Room(this, {x: 0, y: 0}, {x: 1000, y: 1000});
 	}
 
 	update(time : number, delta : number){

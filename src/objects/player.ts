@@ -16,6 +16,12 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 			friction: 0,
 			frictionStatic: 0,
 			frictionAir: PLAYER_SETTINGS.airFriction,
+			chamfer: 0.5,
+			
+			shape: {
+				width: 50,
+				height: 25
+			}
 		});
 
 		// Do not rotate unless we want:

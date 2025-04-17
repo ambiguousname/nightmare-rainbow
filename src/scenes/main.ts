@@ -19,8 +19,8 @@ export class GameScene extends Phaser.Scene {
 	preload() {
 		const graphics = this.add.graphics();
 		graphics.fillStyle(0xffffff);
-		graphics.fillCircle(12.5, 12.5, 25);
-		graphics.generateTexture("player", 25, 25);
+		graphics.fillRoundedRect(0, 0, 50, 25, 10);
+		graphics.generateTexture("player", 50, 25);
 		graphics.destroy();
 
 		this.#input = new InputManager(this);

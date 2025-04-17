@@ -38,7 +38,7 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	update(time : number, delta : number){
-		let add = new Phaser.Math.Vector2();
+		let add = {x: 0, y: 0};
 		if (this.#cursors.left.isDown) {
 			add.x -= 10;
 		}
@@ -55,9 +55,7 @@ export class GameScene extends Phaser.Scene {
 			add.y -= 10;
 		}
 
-		let vel = this.player.getVelocity();
-
-		this.player.setVelocity(vel.x + add.x * delta/1000, vel.y + add.y * delta/1000);
+		this.player.move(add, delta);
 
 		this.#connection.update(this);
 	}

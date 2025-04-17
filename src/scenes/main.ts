@@ -2,18 +2,19 @@ import { Client } from "../client";
 import { Connection } from "../connection";
 import { Room } from "../levels/room";
 import { Player } from "../objects/player";
+import { InputManager } from "../input";
 
 export class GameScene extends Phaser.Scene {
 	player : Player;
 	otherPlayer : Player;
-
-	#cursors : Phaser.Types.Input.Keyboard.CursorKeys;
 
 	#connection : Connection;
 
 	init(data : Connection) {
 		this.#connection = data;
 	}
+	
+	#input : InputManager;
 
 	preload() {
 		const graphics = this.add.graphics();
@@ -21,6 +22,8 @@ export class GameScene extends Phaser.Scene {
 		graphics.fillCircle(12.5, 12.5, 25);
 		graphics.generateTexture("player", 25, 25);
 		graphics.destroy();
+
+		this.#input = new InputManager(this);
 	}
 
 	create() {
@@ -30,7 +33,8 @@ export class GameScene extends Phaser.Scene {
 
 		this.cameras.main.startFollow(this.player, false, 0.3, 0.3);
 
-		this.#cursors = this.input.keyboard.createCursorKeys();
+		this.#input = new InputManager(this);
+
 
 		this.matter.world.disableGravity();
 
@@ -38,24 +42,8 @@ export class GameScene extends Phaser.Scene {
 	}
 
 	update(time : number, delta : number){
-		let add = {x: 0, y: 0};
-		if (this.#cursors.left.isDown) {
-			add.x -= 10;
-		}
-
-		if (this.#cursors.right.isDown) {
-			add.x += 10;
-		}
-
-		if (this.#cursors.down.isDown) {
-			add.y += 10;
-		}
-
-		if (this.#cursors.up.isDown) {
-			add.y -= 10;
-		}
-
-		this.player.move(add, delta);
+		let intent = this.#input.getIntent();
+		this.player.move(intent, delta);
 
 		this.#connection.update(this);
 	}

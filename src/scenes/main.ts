@@ -28,7 +28,7 @@ export class GameScene extends Phaser.Scene {
 		this.otherPlayer = new Player(this.matter.world, 0, 0, "player");
 		this.otherPlayer.tint = 0xff0000;
 
-		this.cameras.main.startFollow(this.player);
+		this.cameras.main.startFollow(this.player, false, 0.3, 0.3);
 
 		this.#cursors = this.input.keyboard.createCursorKeys();
 

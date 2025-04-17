@@ -1,5 +1,6 @@
 import { Client } from "../client";
 import { Connection } from "../connection";
+import { Room } from "../levels/room";
 import { Player } from "../objects/player";
 
 export class GameScene extends Phaser.Scene {
@@ -32,6 +33,8 @@ export class GameScene extends Phaser.Scene {
 		this.#cursors = this.input.keyboard.createCursorKeys();
 
 		this.matter.world.disableGravity();
+
+		new Room(this, {x: 0, y: 0}, {x: 500, y: 500});
 	}
 
 	update(time : number, delta : number){

@@ -78,7 +78,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 		// 3. Multiply our projection by an even smaller fraction of the velocity's length. Divide by time. This represents what's been transferred over as acceleration.
 		// I think the formula would be: 
 		// outForce += this.body.mass * projectionNormalized * lengthFraction / dt;
-		// velocity -= velocityNormalized * frictionFraction;
+		// velocity *= (1 - frictionFraction);
+		// Angular velocity needs this treatment too, just in terms of friction.
 
 		let outForce = (PLAYER_SETTINGS.acceleration * intent.y);
 

@@ -1,9 +1,10 @@
 import { Vector2 } from "../util";
 
 const PLAYER_SETTINGS = {
-	acceleration: 0.05,
+	acceleration: 0.1,
 	airFriction: 0.01,
-	turnSpeed: 4
+	turnSpeed: 4,
+	mass: 500
 }
 
 const PLAYER_WIDTH = 50;
@@ -30,7 +31,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 			}
 		});
 
-		this.scene.matter.body.setInertia(this.body as MatterJS.BodyType, 5000);
+		this.scene.matter.body.setMass(this.body as MatterJS.BodyType, PLAYER_SETTINGS.mass);
 
 		this.#leftWheel = this.scene.add.rectangle(PLAYER_WIDTH/2, PLAYER_HEIGHT/2, 2.5, 10, 0xff0000);
 		this.#rightWheel = this.scene.add.rectangle(-PLAYER_WIDTH/2, PLAYER_HEIGHT/2, 2.5, 10, 0xffffff);
@@ -76,7 +77,7 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 		// 2. Subtract some fraction of the velocity (maybe 50%?). This represents our friction between the wheels and the ground, slowing things down.
 		// 3. Multiply our projection by an even smaller fraction of the velocity's length. Divide by time. This represents what's been transferred over as acceleration.
 
-		let outForce = delta_ms * (PLAYER_SETTINGS.acceleration * intent.y);
+		let outForce = (PLAYER_SETTINGS.acceleration * intent.y);
 
 		this.scene.matter.applyForceFromPosition(this.body as MatterJS.BodyType, {x: this.#leftWheel.x, y: this.#leftWheel.y}, outForce, angle);
 		

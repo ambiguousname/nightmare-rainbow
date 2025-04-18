@@ -42,6 +42,7 @@ export class GameScene extends Phaser.Scene {
 	update(time : number, delta : number){
 		let intent = this.#input.getIntent();
 		this.player.move(intent, delta);
+		this.otherPlayer.move({x: 0, y: 0}, delta);
 
 		this.#connection.update(this);
 	}

@@ -59,8 +59,6 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 	move(intent : Vector2, delta : number) {
 		let delta_ms = delta/1000;
 
-		// this.scene.matter.body.rotate(this.body as MatterJS.BodyType, intent.x * delta_ms * PLAYER_SETTINGS.rotateSpeed);
-
 		let angle = this.updateWheels(intent.x, delta_ms);
 
 		this.scene.matter.applyForceFromPosition(this.body as MatterJS.BodyType, {x: this.#leftWheel.x, y: this.#leftWheel.y}, delta_ms * PLAYER_SETTINGS.acceleration * intent.y, angle);

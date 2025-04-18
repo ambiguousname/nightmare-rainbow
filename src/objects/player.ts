@@ -76,6 +76,9 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 		// 1. Take a projection of the normalized velocity onto the vector representing the forward of the wheels.
 		// 2. Subtract some fraction of the velocity (maybe 50%?). This represents our friction between the wheels and the ground, slowing things down.
 		// 3. Multiply our projection by an even smaller fraction of the velocity's length. Divide by time. This represents what's been transferred over as acceleration.
+		// I think the formula would be: 
+		// outForce += this.body.mass * projectionNormalized * lengthFraction / dt;
+		// velocity -= velocityNormalized * frictionFraction;
 
 		let outForce = (PLAYER_SETTINGS.acceleration * intent.y);
 

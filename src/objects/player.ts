@@ -72,7 +72,11 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 		// 1. Create wheel sprite objects (for visual clarity) (done)
 		// 2. Left and right arrow keys set rotation of the wheels relative to the car (done)
 		// 3. When you accelerate, you accelerate in the direction the wheels are pointed in. (done)
-		// 4. Multiply the current velocity by sin(angle) and cos(angle), to get only the velocity pointed in the same direction as the angle.
+		// 4. Multiply the current velocity by sin(angle) and cos(angle), to get only the velocity pointed in the same direction as the front wheels.
 		// 5. Disable setting rotation, torque should *hopefully* handle that for us. (done)
+
+		// 6. Set air friction to be very low (assume the wheels are spinning to keep the car in motion). This should hopefully feel more like rolling with step 4.
+		// 7. Add braking/reversing.
+		// 8. To counteract 6, need to figure out what the upper limit on car acceleration is. Is it just air friction?
 	}
 }

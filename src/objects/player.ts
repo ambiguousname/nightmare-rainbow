@@ -65,28 +65,24 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 
 		let angle = this.updateWheels(intent.x, delta_ms);
 
+		// How I'm pretty sure rotating the wheels works while in motion:
+		// The wheels take some fraction of the forward momentum and "redistribute it" in the direction they're facing.
+
 		this.scene.matter.applyForceFromPosition(this.body as MatterJS.BodyType, {x: this.#leftWheel.x, y: this.#leftWheel.y}, delta_ms * PLAYER_SETTINGS.acceleration * intent.y, angle);
 		
 		this.scene.matter.applyForceFromPosition(this.body as MatterJS.BodyType, {x: this.#rightWheel.x, y: this.#rightWheel.y }, delta_ms * PLAYER_SETTINGS.acceleration * intent.y, angle);
-
-		// let vel = new Phaser.Math.Vector2(this.getVelocity());
-
-		// let up = new Phaser.Math.Vector2({x: Math.cos(angle), y: Math.sin(angle) });
-
-		// let proj = vel.project(up);
-
-		// this.setVelocity(proj.x, proj.y);
 
 		// TODO: Need to either re-direct or slow down velocity that is not aligned with wheels.
 		// Steps here:
 		// 1. Create wheel sprite objects (for visual clarity) (done)
 		// 2. Left and right arrow keys set rotation of the wheels relative to the car (done)
 		// 3. When you accelerate, you accelerate in the direction the wheels are pointed in. (done)
-		// 4. Multiply the current velocity by sin(angle) and cos(angle), to get only the velocity pointed in the same direction as the front wheels.
+		// 4. Figure out how the wheels control the body while in motion.
 		// 5. Disable setting rotation, torque should *hopefully* handle that for us. (done)
 
 		// 6. Set air friction to be very low (assume the wheels are spinning to keep the car in motion). This should hopefully feel more like rolling with step 4.
 		// 7. Add braking/reversing.
 		// 8. To counteract 6, need to figure out what the upper limit on car acceleration is. Is it just air friction?
+		// 9. Lower moment of inertia? Or at least make it harder to rotate.
 	}
 }

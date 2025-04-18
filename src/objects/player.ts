@@ -55,5 +55,10 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 		this.scene.matter.applyForceFromPosition(this.body as MatterJS.BodyType, wheelRight, delta_ms * PLAYER_SETTINGS.acceleration * intent.y, angle /* TODO: Get this working with wheel angle */);
 
 		// TODO: Need to either re-direct or slow down velocity that is not aligned with wheels.
+		// Steps here:
+		// 1. Create wheel sprite objects (for visual clarity)
+		// 2. Left and right arrow keys set rotation of the wheels relative to the car
+		// 3. When you accelerate, you accelerate in the direction the wheels are pointed in.
+		// 4. Multiply the current velocity by sin(angle) and cos(angle), to get only the velocity pointed in the same direction as the angle.
 	}
 }

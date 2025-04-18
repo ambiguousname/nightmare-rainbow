@@ -35,19 +35,19 @@ export class InputManager {
 
 
 		if (this.#directions[0]) {
-			add.x -= 10;
+			add.x -= 1;
 		}
 
 		if (this.#directions[1]) {
-			add.x += 10;
+			add.x += 1;
 		}
 
 		if (this.#directions[2]) {
-			add.y -= 10;
+			add.y -= 1;
 		}
 
 		if (this.#directions[3]) {
-			add.y += 10;
+			add.y += 1;
 		}
 		return add;
 	}

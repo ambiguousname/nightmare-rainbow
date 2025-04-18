@@ -1,8 +1,8 @@
 import { Vector2 } from "../util";
 
 const PLAYER_SETTINGS = {
-	rotateSpeed: 0.5,
-	acceleration: 2,
+	rotateSpeed: 2,
+	acceleration: 0.1,
 	airFriction: 0.04
 }
 
@@ -40,13 +40,9 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 		let delta_ms = delta/1000;
 
 		this.scene.matter.body.rotate(this.body as MatterJS.BodyType, intent.x * delta_ms * PLAYER_SETTINGS.rotateSpeed);
-		
-		let vel = this.getVelocity();
 
-		let up = this.up;
+		this.scene.matter.applyForceFromPosition(this.body as MatterJS.BodyType, this.body.position, delta_ms * PLAYER_SETTINGS.acceleration * intent.y);
 
 		// TODO: I think a tire based system would be better.
-
-		this.setVelocity(vel.x + up.x * intent.y * delta_ms * PLAYER_SETTINGS.acceleration, vel.y + up.y * intent.y * delta_ms * PLAYER_SETTINGS.acceleration);
 	}
 }

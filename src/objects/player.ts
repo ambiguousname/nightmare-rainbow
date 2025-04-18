@@ -64,13 +64,23 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 		let delta_ms = delta/1000;
 
 		let angle = this.updateWheels(intent.x, delta_ms);
-
+		
+		
 		// How I'm pretty sure rotating the wheels works while in motion:
 		// The wheels take some fraction of the forward momentum and "redistribute it" in the direction they're facing.
+		// So we need to figure out some formula to take forward momentum that is aligned with our wheels and reapply it as acceleration from a position,
+		// While zeroing out (or making fractional) velocity elsewhere.
 
-		this.scene.matter.applyForceFromPosition(this.body as MatterJS.BodyType, {x: this.#leftWheel.x, y: this.#leftWheel.y}, delta_ms * PLAYER_SETTINGS.acceleration * intent.y, angle);
+		// Guess One:
+		// 1. Take a projection of the normalized velocity onto the vector representing the forward of the wheels.
+		// 2. Subtract some fraction of the velocity (maybe 50%?). This represents our friction between the wheels and the ground, slowing things down.
+		// 3. Multiply our projection by an even smaller fraction of the velocity's length. Divide by time. This represents what's been transferred over as acceleration.
+
+		let outForce = delta_ms * (PLAYER_SETTINGS.acceleration * intent.y);
+
+		this.scene.matter.applyForceFromPosition(this.body as MatterJS.BodyType, {x: this.#leftWheel.x, y: this.#leftWheel.y}, outForce, angle);
 		
-		this.scene.matter.applyForceFromPosition(this.body as MatterJS.BodyType, {x: this.#rightWheel.x, y: this.#rightWheel.y }, delta_ms * PLAYER_SETTINGS.acceleration * intent.y, angle);
+		this.scene.matter.applyForceFromPosition(this.body as MatterJS.BodyType, {x: this.#rightWheel.x, y: this.#rightWheel.y }, outForce, angle);
 
 		// TODO: Need to either re-direct or slow down velocity that is not aligned with wheels.
 		// Steps here:

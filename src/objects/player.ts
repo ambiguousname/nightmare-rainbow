@@ -1,9 +1,9 @@
 import { Vector2 } from "../util";
 
 const PLAYER_SETTINGS = {
-	rotateSpeed: 2,
 	acceleration: 0.05,
-	airFriction: 0.04
+	airFriction: 0.01,
+	turnSpeed: 4
 }
 
 const PLAYER_WIDTH = 50;
@@ -39,13 +39,17 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 		this.addToDisplayList();
 	}
 
+	#prevTurn = 0;
+
 	updateWheels(turn : number, delta_ms : number) : number {
 		let angle = (this.body as MatterJS.BodyType).angle;
 
 		let leftWheelAngle = angle + 7 * Math.PI/8;
 		let rightWheelAngle = angle + 9 * Math.PI/8;
+		
+		this.#prevTurn = Phaser.Math.Linear(this.#prevTurn, turn, delta_ms * PLAYER_SETTINGS.turnSpeed);
 
-		let wheelTurn = angle + Math.PI/2 + turn;
+		let wheelTurn = angle + Math.PI/2 + this.#prevTurn;
 		
 		this.#leftWheel.setPosition(Math.cos(leftWheelAngle) * PLAYER_WIDTH/2 + this.body.position.x, Math.sin(leftWheelAngle) * PLAYER_WIDTH/2 + this.body.position.y, -1);
 		this.#leftWheel.setRotation(wheelTurn);
@@ -64,6 +68,14 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 		this.scene.matter.applyForceFromPosition(this.body as MatterJS.BodyType, {x: this.#leftWheel.x, y: this.#leftWheel.y}, delta_ms * PLAYER_SETTINGS.acceleration * intent.y, angle);
 		
 		this.scene.matter.applyForceFromPosition(this.body as MatterJS.BodyType, {x: this.#rightWheel.x, y: this.#rightWheel.y }, delta_ms * PLAYER_SETTINGS.acceleration * intent.y, angle);
+
+		// let vel = new Phaser.Math.Vector2(this.getVelocity());
+
+		// let up = new Phaser.Math.Vector2({x: Math.cos(angle), y: Math.sin(angle) });
+
+		// let proj = vel.project(up);
+
+		// this.setVelocity(proj.x, proj.y);
 
 		// TODO: Need to either re-direct or slow down velocity that is not aligned with wheels.
 		// Steps here:

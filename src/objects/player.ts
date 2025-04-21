@@ -65,6 +65,8 @@ export class Player extends Phaser.Physics.Matter.Sprite {
 		let delta_ms = delta/1000;
 
 		let angle = this.updateWheels(intent.x, delta_ms);
+
+// TODO: Verify velocity measurements and unit conversions are accurate, test to see if you can accelerate a car at a constant rate and get the velocity you expect
 		
 		
 		// How I'm pretty sure rotating the wheels works while in motion:
